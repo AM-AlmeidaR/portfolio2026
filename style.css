@@ -1,0 +1,153 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    background: #000515;
+}
+
+header {
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    top: 20px;
+    font-family: 'Arial', sans-serif;
+    color: white;
+    font-size: 24px;
+    z-index: 3;
+}
+
+h1 {
+    margin-left: 10px;
+    color: whitesmoke;
+    font-size: 30px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+nav {
+    position: relative;
+    top: 20px;
+    right: 20px;
+    z-index: 3;
+}
+
+li {
+    display: inline-flex;
+    justify-content: space-between;
+    margin-left: 20px;
+    color: white;
+    font-family: 'Arial', sans-serif;
+    cursor: pointer;
+    list-style: none;
+}
+
+hero {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    font-family: 'Arial', sans-serif;
+}
+
+.card-content {
+    position: relative;
+    z-index: 2;
+    /* Por encima del borde (z-index 1) y del glow (z-index 0) */
+    background: var(--bg-dark);
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    /* Ligeramente menor que el contenedor para que encaje */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+
+:root {
+    --border-angle: 0deg;
+    --glow-color: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
+    --bg-dark: #0f0f0f;
+}
+
+.card-container {
+    position: relative;
+    width: 300px;
+    height: 400px;
+    background: var(--bg-dark);
+    border-radius: 15px;
+    display: grid;
+    place-items: center;
+    /* El overflow debe ser visible para que el brillo se vea fuera del div */
+    padding: 3px;
+}
+
+/* El borde animado */
+.card-container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    padding: 3px;
+    /* Grosor del borde */
+    background: var(--glow-color);
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    z-index: 1;
+}
+
+/* El efecto de brillo (Glow) */
+.card-container::after {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    /* Se extiende un poco más allá del borde */
+    background: var(--glow-color);
+    border-radius: 15px;
+    filter: blur(15px);
+    /* El secreto del brillo */
+    opacity: 0.8;
+    /* Ajusta la intensidad del glow */
+    z-index: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Animación opcional al hacer hover */
+.card-container:hover::after {
+    opacity: 0.9;
+    filter: blur(20px);
+}
+
+
+/*Tip Pro: Animación del Gradiente Si quieres que el brillo y el borde "giren" juntos,
+puedes añadir esta animación: */
+@property --border-angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes spin {
+    to {
+        --border-angle: 360deg;
+    }
+}
+
+.card-container::before,
+.card-container::after {
+    background: conic-gradient(from var(--border-angle), #ff0055, #00f2fe, #ff0055);
+    animation: spin 3s linear infinite;
+}
