@@ -129,29 +129,39 @@ hero {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding-top: 20px;
-    gap: 30px;
+    padding: 50px 15px 30px;
+    gap: 40px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
 }
 
 /* Wrapper interno que contiene .card-container + figure
-   Mobile: columna (card encima de figure)
-   Desktop (>=780px): fila (card a la izquierda, figure a la derecha) */
+   Mobile: columna, uno debajo del otro
+   Desktop (>=780px): fila lado a lado, acotado al ancho del header
+   padding: espacio para que el glow del ::after (-12px) no quede cortado */
 hero > div:first-child {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 40px;
     align-items: center;
     width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    /* 24px top/bottom + 24px laterales: el glow ::after extiende 12px → quedan 12px de margen */
+    padding: 24px;
+    box-sizing: border-box;
+    overflow: visible;
 }
 
-/* Desktop: card-container y figure lado a lado (solo el wrapper interno) */
+/* Desktop: fila lado a lado */
 @media (min-width: 780px) {
     hero > div:first-child {
         flex-direction: row;
-        align-items: flex-start;
-        gap: 30px;
+        align-items: stretch;
         justify-content: center;
-        width: 100%;
+        /* 32px bottom: card con align-self:stretch llega al fondo → más holgura */
+        padding: 24px 24px 32px;
     }
 }
 
@@ -174,47 +184,79 @@ body {
     color: white;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* --- EL CONTENEDOR CON GLOW --- */
 .card-container {
     position: relative;
-    width: 345px;
-    margin: 20px 10px;
-    padding: 1px;
-    /* Grosor del borde */
+    max-width: 345px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
     border-radius: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1;
+    box-sizing: border-box;
+    box-shadow: 0 0 32px rgba(82, 255, 125, 0.08);
+    overflow: visible;
 }
 
-/* Animación del borde (Glow Nítido) */
+/* Desktop: ocupa mitad de la fila y estira hasta la altura de la figura */
+@media (min-width: 780px) {
+    .card-container {
+        flex: 1 1 345px;
+        min-width: 0;
+        align-self: stretch;
+        margin: 0;
+    }
+}
+
+/* Borde giratorio exterior: el pseudo se extiende 3px fuera del card,
+   el gradiente cónico arranca en transparente, llega al verde y vuelve a transparente
+   → sin seam visible, efecto cometa que rodea el exterior del card */
 .card-container::before {
     content: "";
     position: absolute;
-    inset: 0;
-    border-radius: 12px;
-    padding: 2px;
-    background: conic-gradient(from var(--border-angle), transparent, var(--accent-green), transparent 30%);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: 15px;
+    border: 3px solid transparent;
+    background: conic-gradient(
+        from var(--border-angle),
+        transparent,
+        var(--accent-green) 15%,
+        transparent 35%
+    ) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
+    filter: drop-shadow(0 0 15px var(--accent-green));
     animation: spin 4s linear infinite;
+    pointer-events: none;
+    z-index: 2;
 }
 
-/* El Aura de Brillo (Glow Difuso) */
 .card-container::after {
     content: "";
     position: absolute;
-    inset: -10px;
-    background: conic-gradient(from var(--border-angle), transparent, var(--accent-green), transparent 30%);
-    filter: blur(20px);
-    opacity: 0.3;
+    top: -12px;
+    left: -12px;
+    right: -12px;
+    bottom: -12px;
+    border-radius: 16px;
+    background: rgba(82, 255, 125, 0.18);
+    filter: blur(14px);
+    opacity: 0.45;
     z-index: -1;
-    animation: spin 4s linear infinite;
+    pointer-events: none;
 }
 
 /* --- EL CONTENIDO (Tu código de referencia adaptado) --- */
@@ -232,7 +274,8 @@ body {
     box-shadow: 0 -1px 0 0 rgba(82, 255, 125, 0.16), 0 0 0 1px rgba(255, 255, 255, 0.12);
 
     text-align: center;
-    min-width: 250px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .card-content h3 h4 {
@@ -255,16 +298,34 @@ h2 {
 figure {
     border-radius: 11px;
     overflow: hidden;
-    width: fit-content;
-    height: auto;
+    max-width: 345px;
+    width: 100%;
+    min-height: 280px;
     border: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow: 0 -1px 0 0 rgba(82, 255, 125, 0.16), 0 0 0 1px rgba(255, 255, 255, 0.12);
+    margin: 0 auto;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+}
+
+/* Desktop: ocupa mitad de la fila y estira hasta la altura de la card */
+@media (min-width: 780px) {
+    figure {
+        flex: 1 1 345px;
+        min-width: 0;
+        align-self: stretch;
+        margin: 0;
+    }
 }
 
 img {
     display: block;
-    width: 345px;
-    height: auto;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    min-height: 0;
 }
 
 /* --- Bloque 'lenguajes' con mismo tamaño y borde animado que header */
@@ -313,7 +374,7 @@ p {
     font-size: 1.5rem;
 }
 
-.lenguajes h3 {
+.lenguajes h3, p {
     margin: 5px auto;
     color: var(--accent-green);
     font-size: 1rem;
@@ -321,9 +382,20 @@ p {
     text-align: center;
 }
 
+hero > div:nth-child(3) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 15px;
+}
+
 .svg-container {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0px;
     position: relative;
 }
