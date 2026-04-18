@@ -1,87 +1,243 @@
-/* Estilo Base del Body para el Portfolio */
-body {
-    background-color: #050505;
-    color: white;
-    font-family: 'Segoe UI', Tahoma, sans-serif;
-    margin: 0;
-}
+header {
+    /* Posición relativa para el borde animado */
+    position: sticky;
+    top: 10px;
+    z-index: 100;
 
-/* --- CONTENEDOR DE LA TARJETA --- */
-.card-container {
-    position: relative;
-    display: flex;
-    flex-grow: 1;
-    max-width: 400px;
-    /* Ajusta según necesites */
-    margin: 40px auto;
+    /* Centrado y tamaño - MOBILE */
+    width: calc(100% - 30px);
+    max-width: 900px;
+    margin: 10px auto;
+    padding: 15px;
+    box-sizing: border-box;
 
-    /* Bordes Redondeados de tu código (12px) */
+    /* REPLICANDO TU EFECTO ORIGINAL */
     border-radius: 12px;
+    backdrop-filter: blur(8px);
+    /* Un poco más de blur para legibilidad */
+    -webkit-backdrop-filter: blur(8px);
 
-    /* El efecto de cristal y desenfoque */
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
-
-    /* Fondo: Degradado de Verde Oscuro a Negro (Tu original) */
     background-image: linear-gradient(180deg,
             rgba(10, 43, 18, 0.42) 0,
-            #0c0c0c 64%);
+            rgba(12, 12, 12, 0.9) 100%
+            /* Un poco más opaco para el menú */
+        );
 
-    /* El Brillo del Borde (Sombra doble exacta de tu consulta) */
     box-shadow:
         0 -1px 0 0 rgba(82, 255, 125, 0.16),
         0 0 0 1px rgba(255, 255, 255, 0.12);
 
+    /* Layout - MOBILE FIRST */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+
+    /* Para el borde animado */
+    position: relative;
     overflow: hidden;
 }
 
-/* --- CONTENIDO INTERNO --- */
-.card-content {
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    column-gap: 10px;
-    padding: 20px;
-    width: 100%;
+/* Desktop: h1 y nav lado a lado */
+@media (min-width: 780px) {
+    header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0;
+        
+    }
 }
 
-/* Estilos de texto para coherencia visual */
-.card-content h3 {
-    margin: 0 0 8px 0;
-    font-size: 1.2rem;
-    color: #52ff7d;
-    /* Color verde de acento */
-}
-
-.card-content p {
-    margin: 0;
-    font-size: 0.95rem;
-    opacity: 0.8;
-    line-height: 1.4;
-}
-
-/* Header simple para acompañar el diseño */
-header {
-    text-align: center;
-    padding: 30px;
+/* Borde animado que gira */
+header::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    padding: 1px;
+    background: conic-gradient(from var(--border-angle), #ff0055, #00f2fe, #ff0055);
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    z-index: 10;
+    animation: spin 3s linear infinite;
+    pointer-events: none;
 }
 
 header h1 {
-    font-size: 1.5rem;
-    letter-spacing: 1px;
+    font-size: 1.1rem;
+    margin: 0;
+    color: #52ff7d;
+    font-weight: 600;
+    position: relative;
+    z-index: 11;
 }
 
 nav ul {
     list-style: none;
+    margin: 0;
     padding: 0;
     display: flex;
-    justify-content: center;
-    gap: 20px;
+    flex-direction: row;
+    gap: 15px;
+    position: relative;
+    z-index: 11;
+    align-items: center;
+}
+
+/* Desktop: nav en fila */
+@media (min-width: 780px) {
+    nav ul {
+        flex-direction: row;
+        gap: 25px;
+        align-items: center;
+    }
+}
+
+/* Los li siempre en fila */
+nav li {
+    display: inline-block;
 }
 
 nav a {
-    color: #52ff7d;
+    color: #ffffff;
     text-decoration: none;
     font-size: 0.9rem;
+    font-weight: 400;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+/* Efecto al pasar el ratón por los enlaces */
+nav a:hover {
+    color: #52ff7d;
+    text-shadow: 0 0 8px rgba(82, 255, 125, 0.6);
+}
+
+/* --- AJUSTE PARA EL HERO - MOBILE FIRST --- */
+hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 15px 30px;
+    gap: 40px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+}
+
+/* Wrapper interno que contiene .card-container + figure
+   Mobile: columna, uno debajo del otro
+   Desktop (>=780px): fila lado a lado, acotado al ancho del header
+   padding: espacio para que el glow del ::after (-12px) no quede cortado */
+hero > div:first-child {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    /* 24px top/bottom + 24px laterales: el glow ::after extiende 12px → quedan 12px de margen */
+    padding: 24px;
+    box-sizing: border-box;
+    overflow: visible;
+}
+
+/* Desktop: fila lado a lado */
+@media (min-width: 780px) {
+    hero > div:first-child {
+        flex-direction: row;
+        align-items: stretch;
+        justify-content: center;
+        /* 32px bottom: card con align-self:stretch llega al fondo → más holgura */
+        padding: 24px 24px 32px;
+    }
+}
+
+/* Variables para facilitar cambios de color */
+:root {
+    --bg-dark: #0c0c0c;
+    --accent-green: #52ff7d;
+    /* El verde de tu código original */
+    --border-angle: 0deg;
+}
+
+@property --border-angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+body {
+    background-color: #050505;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+footer {
+    width: 900px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 30px;
+    color: var(--accent-green);
+    gap: 20px;
+    margin-right: auto;
+    margin-left: auto;
+
+    @media (max-width: 1200px) {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+.footer-nav ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.footer-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+
+    @media (max-width: 780px) {
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+    }
+}
+
+.footer-info a {
+    color: var(--accent-green);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 400;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.footer-info a:hover {
+    color: #52ff7d;
+    text-shadow: 0 0 8px rgba(82, 255, 125, 0.6);
 }
 
