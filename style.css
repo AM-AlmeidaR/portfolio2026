@@ -1,103 +1,65 @@
-body {
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    display: grid;
-    justify-content: center;
-    align-items: center;
-    background: #000515;
-}
 
+/* --- NAVEGACIÓN ESTILO CRISTAL CON BORDE ANIMADO - MOBILE FIRST --- */
 header {
-    position: relative;
-    display: flex;
-    justify-content: space-around;
-    top: 20px;
-    font-family: 'Arial', sans-serif;
-    color: white;
-    font-size: 24px;
-    z-index: 3;
-}
+    /* Posición relativa para el borde animado */
+    position: sticky;
+    top: 10px;
+    z-index: 100;
 
-h1 {
-    margin-left: 10px;
-    color: whitesmoke;
-    font-size: 30px;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-}
+    /* Centrado y tamaño - MOBILE */
+    width: calc(100% - 30px);
+    max-width: 900px;
+    margin: 10px auto;
+    padding: 15px;
+    box-sizing: border-box;
 
-nav {
-    position: relative;
-    top: 20px;
-    right: 20px;
-    z-index: 3;
-}
-
-li {
-    display: inline-flex;
-    justify-content: space-between;
-    margin-left: 20px;
-    color: white;
-    font-family: 'Arial', sans-serif;
-    cursor: pointer;
-    list-style: none;
-}
-
-hero {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80vh;
-    font-family: 'Arial', sans-serif;
-}
-
-.card-content {
-    position: relative;
-    z-index: 2;
-    /* Por encima del borde (z-index 1) y del glow (z-index 0) */
-    background: var(--bg-dark);
-    width: 100%;
-    height: 100%;
+    /* REPLICANDO TU EFECTO ORIGINAL */
     border-radius: 12px;
-    /* Ligeramente menor que el contenedor para que encaje */
+    backdrop-filter: blur(8px);
+    /* Un poco más de blur para legibilidad */
+    -webkit-backdrop-filter: blur(8px);
+
+    background-image: linear-gradient(180deg,
+            rgba(10, 43, 18, 0.42) 0,
+            rgba(12, 12, 12, 0.9) 100%
+            /* Un poco más opaco para el menú */
+        );
+
+    box-shadow:
+        0 -1px 0 0 rgba(82, 255, 125, 0.16),
+        0 0 0 1px rgba(255, 255, 255, 0.12);
+
+    /* Layout - MOBILE FIRST */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: white;
-    padding: 20px;
-    text-align: center;
-}
+    gap: 15px;
 
-
-:root {
-    --border-angle: 0deg;
-    --glow-color: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
-    --bg-dark: #0f0f0f;
-}
-
-.card-container {
+    /* Para el borde animado */
     position: relative;
-    width: 300px;
-    height: 400px;
-    background: var(--bg-dark);
-    border-radius: 15px;
-    display: grid;
-    place-items: center;
-    /* El overflow debe ser visible para que el brillo se vea fuera del div */
-    padding: 3px;
+    overflow: hidden;
 }
 
-/* El borde animado */
-.card-container::before {
+/* Desktop: h1 y nav lado a lado */
+@media (min-width: 780px) {
+    header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0;
+        
+    }
+}
+
+/* Borde animado que gira */
+header::after {
     content: "";
     position: absolute;
     inset: 0;
-    border-radius: 10px;
-    padding: 3px;
-    /* Grosor del borde */
-    background: var(--glow-color);
+    border-radius: 12px;
+    padding: 1px;
+    background: conic-gradient(from var(--border-angle), #ff0055, #00f2fe, #ff0055);
     -webkit-mask:
         linear-gradient(#fff 0 0) content-box,
         linear-gradient(#fff 0 0);
@@ -106,48 +68,168 @@ hero {
         linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
-    z-index: 1;
+    z-index: 10;
+    animation: spin 3s linear infinite;
+    pointer-events: none;
 }
 
-/* El efecto de brillo (Glow) */
-.card-container::after {
-    content: "";
-    position: absolute;
-    inset: -5px;
-    /* Se extiende un poco más allá del borde */
-    background: var(--glow-color);
-    border-radius: 15px;
-    filter: blur(15px);
-    /* El secreto del brillo */
-    opacity: 0.8;
-    /* Ajusta la intensidad del glow */
-    z-index: 0;
-    transition: opacity 0.3s ease;
+header h1 {
+    font-size: 1.1rem;
+    margin: 0;
+    color: #52ff7d;
+    font-weight: 600;
+    position: relative;
+    z-index: 11;
 }
 
-/* Animación opcional al hacer hover */
-.card-container:hover::after {
-    opacity: 0.9;
-    filter: blur(20px);
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    position: relative;
+    z-index: 11;
+    align-items: center;
 }
 
+/* Desktop: nav en fila */
+@media (min-width: 780px) {
+    nav ul {
+        flex-direction: row;
+        gap: 25px;
+        align-items: center;
+    }
+}
 
-/*Tip Pro: Animación del Gradiente Si quieres que el brillo y el borde "giren" juntos,
-puedes añadir esta animación: */
+/* Los li siempre en fila */
+nav li {
+    display: inline-block;
+}
+
+nav a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 400;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+/* Efecto al pasar el ratón por los enlaces */
+nav a:hover {
+    color: #52ff7d;
+    text-shadow: 0 0 8px rgba(82, 255, 125, 0.6);
+}
+
+/* Variables para facilitar cambios de color */
+:root {
+    --bg-dark: #0c0c0c;
+    --accent-green: #52ff7d;
+    /* El verde de tu código original */
+    --border-angle: 0deg;
+}
+
 @property --border-angle {
     syntax: "<angle>";
     initial-value: 0deg;
     inherits: false;
 }
 
-@keyframes spin {
-    to {
-        --border-angle: 360deg;
+body {
+    background-color: #050505;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+hero {
+    display: grid;
+    grid-template-columns: 100%; /* Asegura que la columna no exceda el viewport */
+    width: 100%;
+    max-width: 900px;
+    box-sizing: border-box;
+}
+
+hero h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--accent-green);
+    text-align: center;
+}
+
+.icons-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.icons-section div img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+    width: 60px;
+    height: 60px;
+}
+
+footer {
+    width: 900px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 30px;
+    color: var(--accent-green);
+    gap: 20px;
+    margin-right: auto;
+    margin-left: auto;
+
+    @media (max-width: 1200px) {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        width: 100%;
+        box-sizing: border-box;
     }
 }
 
-.card-container::before,
-.card-container::after {
-    background: conic-gradient(from var(--border-angle), #ff0055, #00f2fe, #ff0055);
-    animation: spin 3s linear infinite;
+.footer-nav ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
 }
+
+.footer-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+
+    @media (max-width: 780px) {
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+    }
+}
+
+.footer-info a {
+    color: var(--accent-green);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 400;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.footer-info a:hover {
+    color: #52ff7d;
+    text-shadow: 0 0 8px rgba(82, 255, 125, 0.6);
+}
+

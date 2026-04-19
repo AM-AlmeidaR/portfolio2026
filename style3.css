@@ -1,3 +1,5 @@
+
+/* --- NAVEGACIÓN ESTILO CRISTAL CON BORDE ANIMADO - MOBILE FIRST --- */
 header {
     /* Posición relativa para el borde animado */
     position: sticky;
@@ -120,48 +122,6 @@ nav a:hover {
     text-shadow: 0 0 8px rgba(82, 255, 125, 0.6);
 }
 
-/* --- AJUSTE PARA EL HERO - MOBILE FIRST --- */
-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 50px 15px 30px;
-    gap: 40px;
-    width: 100%;
-    box-sizing: border-box;
-    overflow: visible;
-}
-
-/* Wrapper interno que contiene .card-container + figure
-   Mobile: columna, uno debajo del otro
-   Desktop (>=780px): fila lado a lado, acotado al ancho del header
-   padding: espacio para que el glow del ::after (-12px) no quede cortado */
-hero > div:first-child {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    align-items: center;
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
-    /* 24px top/bottom + 24px laterales: el glow ::after extiende 12px → quedan 12px de margen */
-    padding: 24px;
-    box-sizing: border-box;
-    overflow: visible;
-}
-
-/* Desktop: fila lado a lado */
-@media (min-width: 780px) {
-    hero > div:first-child {
-        flex-direction: row;
-        align-items: stretch;
-        justify-content: center;
-        /* 32px bottom: card con align-self:stretch llega al fondo → más holgura */
-        padding: 24px 24px 32px;
-    }
-}
-
 /* Variables para facilitar cambios de color */
 :root {
     --bg-dark: #0c0c0c;
@@ -186,6 +146,79 @@ body {
     align-items: center;
 }
 
+hero {
+    display: grid;
+    grid-template-columns: 100%; /* Asegura que la columna no exceda el viewport */
+    width: 100%;
+    max-width: 900px;
+    box-sizing: border-box;
+}
+
+.bottom__hero {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 30px;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+#projects {
+    font-size: 1.5rem;
+    margin: 0;
+    color: var(--accent-green);
+    text-align: center;
+    word-wrap: break-word;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.bottom__hero__list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 900px;
+    box-sizing: border-box;
+    padding: 20px 0;
+}
+
+.bottom__hero__list article h3 {
+    margin: 10px 0;
+    font-size: 1.2rem;
+    text-align: center;
+    color: var(--accent-green);
+}
+
+.bottom__hero__list article img {
+    width: 100%;
+    max-width: 900px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border-radius: 10px;
+}
+
+.bottom__hero__list article p {
+    margin: 20px 0;
+    font-size: 0.9rem;
+    text-align: center;
+    color: #cccccc;
+}
+
+@keyframes spin {
+    to {
+        --border-angle: 360deg;
+    }
+}
+
+.bottom__hero__list article a:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
 
 footer {
     width: 900px;
