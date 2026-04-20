@@ -200,6 +200,13 @@ hero {
     display: block;
     margin: 0 auto;
     border-radius: 10px;
+    box-shadow: 0 10px 30px -10px rgba(82, 255, 125, 0.3);
+    transition: box-shadow 0.3s ease;
+}
+
+.bottom__hero__list article img:hover {
+    /* Al pasar el mouse, el brillo aumenta */
+    box-shadow: 0 20px 40px -15px rgba(82, 255, 125, 0.7);
 }
 
 .bottom__hero__list article p {
