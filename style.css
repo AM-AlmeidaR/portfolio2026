@@ -225,6 +225,11 @@ hero h2 {
     height: 60px;
 }
 
+.icons-section div img:hover {
+    transform: scale(1.4); 
+    transition: 0.5s ease;
+}
+
 .contact-info-nav {
     display: flex;
     justify-content: center;
