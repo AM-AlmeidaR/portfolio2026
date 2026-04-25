@@ -209,6 +209,20 @@ hero {
     box-shadow: 0 20px 40px -15px rgba(82, 255, 125, 0.7);
 }
 
+/* Estado inicial de la imagen (oculta y pequeña) */
+.bottom__hero__list article img {
+    opacity: 0;
+    transform: scale(0.5); /* Empieza al 50% de su tamaño */
+    transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); /* Transición suave */
+    will-change: transform, opacity; /* Optimización para la GPU */
+}
+
+/* Clase que añadiremos con JavaScript cuando sea visible */
+.bottom__hero__list article img.is-visible {
+    opacity: 1;
+    transform: scale(1); /* Crece hasta rellenar su box */
+}
+
 .bottom__hero__list article p {
     margin: 20px 0;
     font-size: 0.9rem;

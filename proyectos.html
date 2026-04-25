@@ -73,5 +73,31 @@
                 <p> All rights reserved.</p>
             </div>
         </footer>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const images = document.querySelectorAll('.bottom__hero__list article img');
+
+                const observerOptions = {
+                    root: null, // usa el viewport del navegador
+                    threshold: 0.2, // se activa cuando el 20% de la imagen es visible
+                    rootMargin: "0px"
+                };
+
+                const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // Añadimos la clase para que crezca
+                            entry.target.classList.add('is-visible');
+                            // Dejamos de observar esta imagen una vez ya apareció
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
+
+                images.forEach(img => {
+                    observer.observe(img);
+                });
+            });
+        </script>
     </body>
 </html>
