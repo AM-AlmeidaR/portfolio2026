@@ -295,3 +295,10 @@ footer {
     text-shadow: 0 0 8px rgba(82, 255, 125, 0.6);
 }
 
+.working {
+    max-width: 800px;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto; /* la centra horizontalmente */
+}
